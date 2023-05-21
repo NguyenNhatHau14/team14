@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/src/pages/home_app.dart';
+import 'ThemeProvider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -10,9 +18,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+     final themeProvider = Provider.of<ThemeProvider>(context);
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Drawer Navigation',
+       theme: ThemeData(
+        primarySwatch: Colors.blue,
+        brightness: themeProvider.isDarkMode ? Brightness.dark : Brightness.light,
+      ),
       home: HomeApp(),
     );
   }

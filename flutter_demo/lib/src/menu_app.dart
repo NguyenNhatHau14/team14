@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demo/src/pages/chart_app.dart';
 import 'package:flutter_demo/src/pages/home_app.dart';
 import 'package:flutter_demo/src/pages/settings.dart';
-
+import 'package:flutter_demo/ThemeProvider.dart';
+import 'package:provider/provider.dart';
 import 'package:page_transition/page_transition.dart';
 
 class MenuApp extends StatefulWidget {
@@ -26,6 +27,7 @@ class _MenuAppState extends State<MenuApp> {
 
   @override
   Widget build(BuildContext context) {
+     final themeProvider = Provider.of<ThemeProvider>(context);
     return Drawer(
         child: ListView(
       children: [
@@ -56,7 +58,7 @@ class _MenuAppState extends State<MenuApp> {
           ),
           title: const Text('Chart'),
           onTap: () {
-            _showScreen(context, const ChartPage());
+            _showScreen(context, const draw1());
           },
         ),
         ListTile(
@@ -66,6 +68,16 @@ class _MenuAppState extends State<MenuApp> {
             _showScreen(context, const SettingApp());
           },
         ),
+           ListTile(
+            leading: Icon(Icons.color_lens),
+            title: Text('Dark Mode'),
+            trailing: Switch(
+              value: themeProvider.isDarkMode,
+              onChanged: (value) {
+                themeProvider.toggleThemeMode();
+              },
+            ),
+          ),
       ],
     ));
   }
