@@ -4,11 +4,12 @@ import 'ThemeProvider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MultiProvider(
+  runApp(
+    MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -18,15 +19,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     final themeProvider = Provider.of<ThemeProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Drawer Navigation',
-       theme: ThemeData(
+      title: 'HLP Wallet',
+      theme: ThemeData(
         primarySwatch: Colors.blue,
-        brightness: themeProvider.isDarkMode ? Brightness.dark : Brightness.light,
+        brightness:
+            themeProvider.isDarkMode ? Brightness.dark : Brightness.light,
       ),
-      home: HomeApp(),
+      home: const HomeApp(),
     );
   }
 }
