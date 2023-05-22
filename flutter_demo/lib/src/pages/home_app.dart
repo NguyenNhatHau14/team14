@@ -107,7 +107,7 @@ class _HomeAppState extends State<HomeApp> {
           ),
         ),
       ),
-      floatingActionButton: PlusButton(visible: _visible),
+      // floatingActionButton: PlusButton(visible: _visible),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
