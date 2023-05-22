@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/src/pages/home_app.dart';
+import 'package:flutter_demo/page/auth_page.dart';
 import 'package:gsheets/gsheets.dart';
 import 'ThemeProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_demo/firebase_options.dart';
 
 //create credentials
 const _credentials = r'''
@@ -25,6 +27,10 @@ const _credentials = r'''
 const _spreadsheetId = '1iwV5vIPly7Ts40JVTbDT5cxCouYqW8DP5j65bVwWRJE';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   //init ggsheet
   final gsheets = GSheets(_credentials);
   //fetch spreadsheet by its id
@@ -57,7 +63,7 @@ class MyApp extends StatelessWidget {
         brightness:
             themeProvider.isDarkMode ? Brightness.dark : Brightness.light,
       ),
-      home: const HomeApp(),
+      home: const AuthPage(),
     );
   }
 }

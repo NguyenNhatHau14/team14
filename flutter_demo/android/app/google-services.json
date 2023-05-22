@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "805092401180",
+    "project_id": "doan-ltdd-609d9",
+    "storage_bucket": "doan-ltdd-609d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:805092401180:android:626c5f62875544e94dffd9",
+        "android_client_info": {
+          "package_name": "com.example.flutter_demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "805092401180-d1qfq6jjr6hmriek7og1tg6p0lk9m5c9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzGWWYQXDrZowM8V7kn2sgSR5MZY83GNM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "805092401180-d1qfq6jjr6hmriek7og1tg6p0lk9m5c9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "805092401180-rielm60qbppkuva5km7odi2js5d7qmqs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterDemo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

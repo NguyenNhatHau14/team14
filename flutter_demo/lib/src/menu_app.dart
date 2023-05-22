@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/src/pages/chart_app.dart';
 import 'package:flutter_demo/src/pages/home_app.dart';
@@ -25,19 +26,41 @@ class _MenuAppState extends State<MenuApp> {
     );
   }
 
+  final user = FirebaseAuth.instance.currentUser!;
+
+  void signUserout() {
+    FirebaseAuth.instance.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
-     final themeProvider = Provider.of<ThemeProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Drawer(
         child: ListView(
       children: [
-        const DrawerHeader(
-          decoration: BoxDecoration(color: Colors.lightBlue),
+        DrawerHeader(
+          decoration: const BoxDecoration(color: Colors.lightBlue),
           child: Center(
-            child: Text(
-              'Information',
-              textScaleFactor: 1.5,
-              style: TextStyle(color: Colors.red),
+            child: Column(
+              children: [
+                const CircleAvatar(
+                  radius: 30,
+                  child: Icon(
+                    Icons.account_circle,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  user.email!,
+                  textScaleFactor: 1.5,
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
           ),
         ),
@@ -68,16 +91,20 @@ class _MenuAppState extends State<MenuApp> {
             _showScreen(context, const SettingApp());
           },
         ),
-           ListTile(
-            leading: Icon(Icons.color_lens),
-            title: Text('Dark Mode'),
-            trailing: Switch(
-              value: themeProvider.isDarkMode,
-              onChanged: (value) {
-                themeProvider.toggleThemeMode();
-              },
-            ),
+        ListTile(
+          leading: Icon(Icons.color_lens),
+          title: Text('Dark Mode'),
+          trailing: Switch(
+            value: themeProvider.isDarkMode,
+            onChanged: (value) {
+              themeProvider.toggleThemeMode();
+            },
           ),
+        ),
+        IconButton(
+          onPressed: signUserout,
+          icon: Icon(Icons.logout),
+        )
       ],
     ));
   }

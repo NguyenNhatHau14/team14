@@ -15,27 +15,26 @@ class _draw1State extends State<draw1> {
 
   List<charts.Series<MyData, String>> _createSampleData() {
     final data = [
-       MyData('Category 1', 5),
-       MyData('Category 2', 3),
-       MyData('Category 3', 1),
-       MyData('Category 4', 7),
+      MyData('Category 1', 5),
+      MyData('Category 2', 3),
+      MyData('Category 3', 1),
+      MyData('Category 4', 7),
     ];
 
     return [
-       charts.Series<MyData, String>(
+      charts.Series<MyData, String>(
         id: 'Data',
         domainFn: (MyData data, _) => data.category,
         measureFn: (MyData data, _) => data.value,
         data: data,
       )
-
     ];
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: AppBar(
+      appBar: AppBar(
         title: const Text('Chart'),
         elevation: 0,
       ),
@@ -60,30 +59,31 @@ class _draw1State extends State<draw1> {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: List.generate(4, (index) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          index_color = index;
-        });
-      },
-      child: Container(
-        height: 40,
-        width: 80,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color:
-              index_color == index ? Colors.pink : Colors.white,
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          day[index],
-          style: TextStyle(
-            color: index_color == index
-                ? Colors.white
-                : Colors.black,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
+                      children: List.generate(4, (index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              index_color = index;
+                            });
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: index_color == index
+                                  ? Colors.pink
+                                  : Colors.white,
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              day[index],
+                              style: TextStyle(
+                                color: index_color == index
+                                    ? Colors.white
+                                    : Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),
@@ -93,8 +93,6 @@ class _draw1State extends State<draw1> {
                   ),
                   SizedBox(height: 20),
                   Padding(
-
-
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -168,7 +166,7 @@ class _draw1State extends State<draw1> {
                 (context, index) {
                   return ListTile(
                     leading: Image.asset(
-                      'iconUpwork.png',
+                      'assets/img/iconUpwork.png',
                       height: 40,
                     ),
                     title: const Text(
@@ -237,8 +235,7 @@ class ColumnChart extends StatelessWidget {
             fontSize: 16,
             color: charts.MaterialPalette.black,
           ),
-          labelOffsetFromAxisPx: 60
-          , 
+          labelOffsetFromAxisPx: 60,
         ),
       ),
     );
