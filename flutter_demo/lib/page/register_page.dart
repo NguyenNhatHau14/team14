@@ -48,7 +48,7 @@ class _RegisterPage extends State<RegisterPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: Colors.blue,
           title: Center(
             child: Text(
               message,

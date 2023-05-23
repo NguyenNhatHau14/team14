@@ -51,13 +51,13 @@ class _MenuAppState extends State<MenuApp> {
                     size: 30,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Text(
                   user.email!,
                   textScaleFactor: 1.5,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ],
@@ -67,7 +67,7 @@ class _MenuAppState extends State<MenuApp> {
         ListTile(
           leading: const Icon(
             Icons.home,
-            color: Colors.blue,
+            color: Colors.orange,
           ),
           title: const Text('Over View'),
           onTap: () {
@@ -77,7 +77,7 @@ class _MenuAppState extends State<MenuApp> {
         ListTile(
           leading: const Icon(
             Icons.addchart,
-            color: Colors.blue,
+            color: Colors.green,
           ),
           title: const Text('Chart'),
           onTap: () {
@@ -85,15 +85,19 @@ class _MenuAppState extends State<MenuApp> {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.settings, color: Colors.blue),
+          leading: const Icon(Icons.settings,
+              color: Color.fromARGB(255, 143, 122, 122)),
           title: const Text('Settings'),
           onTap: () {
             _showScreen(context, const SettingApp());
           },
         ),
         ListTile(
-          leading: Icon(Icons.color_lens),
-          title: Text('Dark Mode'),
+          leading: const Icon(
+            Icons.dark_mode,
+            color: Colors.purple,
+          ),
+          title: const Text('Dark Mode'),
           trailing: Switch(
             value: themeProvider.isDarkMode,
             onChanged: (value) {
@@ -101,10 +105,14 @@ class _MenuAppState extends State<MenuApp> {
             },
           ),
         ),
-        IconButton(
-          onPressed: signUserout,
-          icon: Icon(Icons.logout),
-        )
+        ListTile(
+          leading: const Icon(
+            Icons.logout,
+            color: Colors.red,
+          ),
+          title: const Text('Logout'),
+          onTap: signUserout,
+        ),
       ],
     ));
   }

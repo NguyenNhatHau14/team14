@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
 class CardBody extends StatelessWidget {
-  CardBody({super.key, required this.item});
+  CardBody({super.key, required this.item, required this.indexCard});
   var item;
+  var indexCard;
   @override
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      color: const Color(0xffdfdfdf),
+      color: indexCard % 2 == 0
+          ? const Color.fromARGB(255, 51, 240, 246)
+          : const Color.fromARGB(255, 159, 207, 236),
       elevation: 0,
       child: ListTile(
         leading: ClipRRect(
@@ -46,9 +49,7 @@ class CardBody extends StatelessWidget {
               ),
               Expanded(
                 child: IconButton(
-                  onPressed: () {
-                    
-                  },
+                  onPressed: () {},
                   icon: const Icon(
                     Icons.delete,
                     color: Colors.red,

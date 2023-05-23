@@ -97,7 +97,9 @@ class _HomeAppState extends State<HomeApp> {
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Column(
                     children: moneyItems
-                        .map((item) => CardBody(item: item))
+                        .map((item) => CardBody(
+                          indexCard : moneyItems.indexOf(item),
+                          item: item))
                         .toList()),
               ),
               const SizedBox(
