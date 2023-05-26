@@ -3,7 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_demo/src/data/1.dart';
 import 'package:flutter_demo/src/menu_app.dart';
 import 'package:flutter_demo/src/widgets/overview/card_body_widget.dart';
-
+import 'package:flutter_demo/ThemeProvider.dart';
+import 'package:provider/provider.dart';
 import '../widgets/overview/plus_button_widget.dart';
 
 class HomeApp extends StatefulWidget {
@@ -59,6 +60,7 @@ class _HomeAppState extends State<HomeApp> {
 
   @override
   Widget build(BuildContext context) {
+     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Over view'),
@@ -78,13 +80,13 @@ class _HomeAppState extends State<HomeApp> {
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children:  [
                     Text(
                       'Transitons History',
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black),
+                          color: themeProvider.isDarkMode ? Colors.white : Colors.black ),
                     ),
                     Text(
                       'see all',

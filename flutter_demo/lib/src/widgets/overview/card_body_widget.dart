@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/ThemeProvider.dart';
+import 'package:provider/provider.dart';
 
 class CardBody extends StatelessWidget {
   CardBody({super.key, required this.item, required this.indexCard});
@@ -6,6 +8,7 @@ class CardBody extends StatelessWidget {
   var indexCard;
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -22,8 +25,8 @@ class CardBody extends StatelessWidget {
             height: 40,
           ),
         ),
-        title: Text(item.name),
-        subtitle: const Text('today'),
+        title: Text(item.name,style: const TextStyle( fontSize: 20, color: Colors.black),),
+        subtitle: const Text('today',style: TextStyle( color: Colors.black),),
         trailing: SizedBox(
           width: 140,
           child: Row(

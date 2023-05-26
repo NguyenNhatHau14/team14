@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_demo/src/menu_app.dart';
-
+import 'package:flutter_demo/ThemeProvider.dart';
+import 'package:provider/provider.dart';
 class draw1 extends StatefulWidget {
   const draw1({Key? key}) : super(key: key);
 
@@ -33,9 +34,10 @@ class _draw1State extends State<draw1> {
 
   @override
   Widget build(BuildContext context) {
+         final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Chart'),
+        title:const Text('Chart',),
         elevation: 0,
       ),
       drawer: const MenuApp(),
@@ -46,12 +48,13 @@ class _draw1State extends State<draw1> {
               child: Column(
                 children: [
                   SizedBox(height: 20),
-                  const Text(
+                   Text(
                     'chart',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
+                      
                     ),
                   ),
                   SizedBox(height: 20),
@@ -71,15 +74,15 @@ class _draw1State extends State<draw1> {
                             width: 80,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: index_color == index
-                                  ? Colors.pink
-                                  : Colors.white,
+                            color: index_color == index
+    ? (themeProvider.isDarkMode ? Theme.of(context).colorScheme.background : Colors.pink)
+    : (themeProvider.isDarkMode ? Theme.of(context).colorScheme.surface : Colors.white),
                             ),
                             alignment: Alignment.center,
                             child: Text(
                               day[index],
                               style: TextStyle(
-                                color: index_color == index
+                                color:themeProvider.isDarkMode ? Colors.white : index_color == index
                                     ? Colors.white
                                     : Colors.black,
                                 fontSize: 16,
@@ -141,13 +144,14 @@ class _draw1State extends State<draw1> {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children:  [
                         Text(
                           'Top Spending',
                           style: TextStyle(
-                            color: Colors.black,
+                            color:themeProvider.isDarkMode ? Colors.white : Colors.black,
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
+                            
                           ),
                         ),
                         Icon(
@@ -215,25 +219,18 @@ class ColumnChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     final themeProvider = Provider.of<ThemeProvider>(context);
     return charts.BarChart(
       seriesList,
       animate: animate,
       vertical: false,
-      barRendererDecorator: charts.BarLabelDecorator(
-        labelPosition: charts.BarLabelPosition.outside,
-        labelAnchor: charts.BarLabelAnchor.middle,
-        outsideLabelStyleSpec: charts.TextStyleSpec(
-          fontSize: 14,
-          color: charts.MaterialPalette.black,
-        ),
-      ),
       domainAxis: charts.OrdinalAxisSpec(
         renderSpec: charts.SmallTickRendererSpec(
           labelRotation: 0,
           labelAnchor: charts.TickLabelAnchor.centered,
           labelStyle: charts.TextStyleSpec(
             fontSize: 16,
-            color: charts.MaterialPalette.black,
+            color: themeProvider.isDarkMode ? charts.MaterialPalette.white:charts.MaterialPalette.black,
           ),
           labelOffsetFromAxisPx: 60,
         ),

@@ -59,7 +59,7 @@ class _PlusButtonState extends State<PlusButton> {
                           const Text(
                             'N E W T R A N F E R',
                             style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.w700),
+                                fontSize: 24, fontWeight: FontWeight.w700,color: Colors.black),
                           ),
                           const SizedBox(
                             height: 20,
@@ -81,7 +81,7 @@ class _PlusButtonState extends State<PlusButton> {
                                   decoration: const InputDecoration(
                                       border: OutlineInputBorder(),
                                       hintText: '0 ',
-                                      labelText: 'Your Acount'),
+                                      labelText: 'Your Acount',fillColor: Colors.black,),
                                   onChanged: (value) {
                                     try {
                                       amount = int.parse(value);
