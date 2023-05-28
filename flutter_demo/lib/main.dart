@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/page/auth_page.dart';
+import 'package:flutter_demo/src/pages/home_app.dart';
 import 'package:gsheets/gsheets.dart';
 import 'ThemeProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_demo/firebase_options.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 //create credentials
 const _credentials = r'''
@@ -63,7 +65,12 @@ class MyApp extends StatelessWidget {
         brightness:
             themeProvider.isDarkMode ? Brightness.dark : Brightness.light,
       ),
-      home: const AuthPage(),
+      home: const HomeApp(),
+      localizationsDelegates: const [
+        FormBuilderLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate
+      ],
     );
   }
 }
