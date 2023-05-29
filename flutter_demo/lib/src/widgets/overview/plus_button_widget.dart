@@ -7,8 +7,12 @@ class PlusButton extends StatefulWidget {
   const PlusButton({
     super.key,
     required bool visible,
-  }) : _visible = visible;
-
+    required Function(String) onTypeSelected,
+    required this.onDataEntered,
+  })  : _visible = visible,
+        _onTypeSelected = onTypeSelected;
+  final Function(String, String, String, DateTime) onDataEntered;
+  final Function(String) _onTypeSelected;
   final bool _visible;
 
   @override
@@ -16,6 +20,10 @@ class PlusButton extends StatefulWidget {
 }
 
 class _PlusButtonState extends State<PlusButton> {
+  // lấy giá trị
+  final TextEditingController _acountcontroller = TextEditingController();
+  final TextEditingController _desccontroller = TextEditingController();
+  // form buider
   final _formKey = GlobalKey<FormBuilderState>();
   String selectedType = '';
 //
@@ -54,238 +62,7 @@ class _PlusButtonState extends State<PlusButton> {
               ),
               context: context,
               builder: (BuildContext context) {
-                return Padding(
-                    padding: MediaQuery.of(context).viewInsets,
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.all(12),
-                      child: FormBuilder(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            const Text(
-                              'N E W T R A N F E R',
-                              style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              children: [
-                                const CircleAvatar(
-                                  backgroundColor: Colors.yellow,
-                                  child: Icon(
-                                    Icons.attach_money,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 12,
-                                ),
-                                Expanded(
-                                  child: FormBuilderTextField(
-                                    name: 'acount',
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      hintText: '0 ',
-                                      labelText: 'Your Acount',
-                                      fillColor: Colors.black,
-                                    ),
-                                    validator: FormBuilderValidators.compose([
-                                      FormBuilderValidators.required(context),
-                                    ]),
-                                    // onChanged: (value) {
-                                    //   try {
-                                    //     amount = int.parse(value!);
-                                    //   } catch (e) {}
-                                    // },
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly,
-                                    ],
-                                    keyboardType: TextInputType.number,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                const CircleAvatar(
-                                  backgroundColor: Colors.blueAccent,
-                                  child: Icon(
-                                    Icons.description,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 12,
-                                ),
-                                Expanded(
-                                  child: FormBuilderTextField(
-                                    name: 'desc',
-                                    decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        hintText: 'Note On Transaction ',
-                                        labelText: 'For what?'),
-                                    validator: FormBuilderValidators.compose([
-                                      FormBuilderValidators.required(context),
-                                      FormBuilderValidators.maxLength(
-                                          context, 30)
-                                    ]),
-                                    maxLength: 30,
-                                    onChanged: (value) {
-                                      note = value!;
-                                    },
-                                    keyboardType: TextInputType.text,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                const CircleAvatar(
-                                  backgroundColor: Colors.brown,
-                                  child: Icon(
-                                    Icons.moving_sharp,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 12,
-                                ),
-                                Expanded(
-                                  child: FormBuilderChoiceChip<String>(
-                                    alignment: WrapAlignment.spaceEvenly,
-                                    name: 'type',
-                                    decoration: const InputDecoration(
-                                        border: InputBorder.none),
-                                    options: const [
-                                      FormBuilderChipOption(
-                                        value: 'income',
-                                        child: Text('Income',
-                                            style: TextStyle(fontSize: 20)),
-                                      ),
-                                      FormBuilderChipOption(
-                                        value: 'expense',
-
-                                        child: Text(
-                                          'Expense',
-                                          style: TextStyle(fontSize: 20),
-                                        ), // Set the color for the selected "expense" option
-                                      ),
-                                    ],
-                                    validator:
-                                        FormBuilderValidators.required(context),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedType = value!;
-                                      });
-                                    },
-                                    selectedColor: Colors.orange,
-                                  ),
-                                )
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            SizedBox(
-                              height: 50,
-                              child: TextButton(
-                                  onPressed: () {
-                                    _selectDate(context);
-                                  },
-                                  style: ButtonStyle(
-                                      padding: MaterialStateProperty.all(
-                                          EdgeInsets.zero)),
-                                  child: Row(
-                                    children: [
-                                      const CircleAvatar(
-                                        backgroundColor: Colors.red,
-                                        child: Icon(
-                                          Icons.date_range,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 12,
-                                      ),
-                                      Expanded(
-                                        child: FormBuilderDateTimePicker(
-                                          name: 'date',
-                                          decoration: const InputDecoration(
-                                              labelText: 'Date',
-                                              border: OutlineInputBorder()),
-                                          validator:
-                                              FormBuilderValidators.required(
-                                                  context),
-                                        ),
-                                      ),
-                                    ],
-                                  )),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            //cancel,enter
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  height: 50,
-                                  child: ElevatedButton(
-                                      style: TextButton.styleFrom(
-                                          backgroundColor: Colors.grey),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text(
-                                        'Cancel !',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w700),
-                                      )),
-                                ),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                SizedBox(
-                                  height: 50,
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                        final curState = _formKey.currentState!;
-                                        var mes = '';
-                                        curState.save();
-                                        if (curState.validate()) {
-                                          mes = curState.value.toString();
-                                        } else {
-                                          mes = 'vali';
-                                        }
-                                        final snackBar =
-                                            SnackBar(content: Text(mes));
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(snackBar);
-                                      },
-                                      child: const Text(
-                                        'Enter +',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w700),
-                                      )),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ));
+                return addModal(context);
               });
         },
         child: const Icon(
@@ -294,5 +71,256 @@ class _PlusButtonState extends State<PlusButton> {
         ),
       ),
     );
+  }
+
+  Padding addModal(BuildContext context) {
+    return Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(12),
+          child: FormBuilder(
+            key: _formKey,
+            child: Column(
+              children: [
+                const Text(
+                  'N E W T R A N F E R',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    const CircleAvatar(
+                      backgroundColor: Colors.yellow,
+                      child: Icon(
+                        Icons.attach_money,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    Expanded(
+                      child: FormBuilderTextField(
+                        controller: _acountcontroller,
+                        name: 'acount',
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: '0 ',
+                          labelText: 'Your Acount',
+                          fillColor: Colors.black,
+                        ),
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(context),
+                        ]),
+                        // onChanged: (value) {
+                        //   try {
+                        //     amount = int.parse(value!);
+                        //   } catch (e) {}
+                        // },
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    const CircleAvatar(
+                      backgroundColor: Colors.blueAccent,
+                      child: Icon(
+                        Icons.description,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    Expanded(
+                      child: FormBuilderTextField(
+                        controller: _desccontroller,
+                        name: 'desc',
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Note On Transaction ',
+                            labelText: 'For what?'),
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(context),
+                          FormBuilderValidators.maxLength(context, 30)
+                        ]),
+                        maxLength: 30,
+                        onChanged: (value) {
+                          note = value!;
+                        },
+                        keyboardType: TextInputType.text,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    const CircleAvatar(
+                      backgroundColor: Colors.brown,
+                      child: Icon(
+                        Icons.moving_sharp,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    Expanded(
+                      child: FormBuilderChoiceChip<String>(
+                        alignment: WrapAlignment.spaceEvenly,
+                        name: 'type',
+                        decoration:
+                            const InputDecoration(border: InputBorder.none),
+                        options: const [
+                          FormBuilderChipOption(
+                            value: 'income',
+                            child:
+                                Text('Income', style: TextStyle(fontSize: 20)),
+                          ),
+                          FormBuilderChipOption(
+                            value: 'expense',
+
+                            child: Text(
+                              'Expense',
+                              style: TextStyle(fontSize: 20),
+                            ), // Set the color for the selected "expense" option
+                          ),
+                        ],
+                        validator: FormBuilderValidators.required(context),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedType = value!;
+                            onChanged:
+                            widget._onTypeSelected;
+                          });
+                        },
+                        selectedColor: Colors.orange,
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  height: 50,
+                  child: TextButton(
+                      onPressed: () {
+                        _selectDate(context);
+                      },
+                      style: ButtonStyle(
+                          padding: MaterialStateProperty.all(EdgeInsets.zero)),
+                      child: Row(
+                        children: [
+                          const CircleAvatar(
+                            backgroundColor: Colors.red,
+                            child: Icon(
+                              Icons.date_range,
+                              color: Colors.black,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          Expanded(
+                            child: FormBuilderDateTimePicker(
+                              name: 'date',
+                              decoration: const InputDecoration(
+                                  labelText: 'Date',
+                                  border: OutlineInputBorder()),
+                              validator:
+                                  FormBuilderValidators.required(context),
+                            ),
+                          ),
+                        ],
+                      )),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                //cancel,enter
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 50,
+                      child: ElevatedButton(
+                          style: TextButton.styleFrom(
+                              backgroundColor: Colors.grey),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text(
+                            'Cancel !',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w700),
+                          )),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          final curState = _formKey.currentState!;
+                          curState.saveAndValidate();
+
+                          if (curState.validate()) {
+                            final acount = curState.value['acount'] as String;
+                            final desc = curState.value['desc'] as String;
+                            final type = curState.value['type'] as String;
+                            final date = curState.value['date'] as DateTime;
+                            widget.onDataEntered(acount, desc, type, date);
+
+                            const snackBar = SnackBar(
+                              content: Text(
+                                'Successfully added!!!',
+                                style: TextStyle(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                            Navigator.of(context).pop();
+                          } else {
+                            const snackBar = SnackBar(
+                                content: Text(
+                                    'Please fill in all required fields.'));
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
+                        },
+                        child: const Text(
+                          'Enter +',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        ));
   }
 }

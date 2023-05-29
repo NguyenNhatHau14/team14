@@ -3,9 +3,51 @@ import 'package:flutter_demo/ThemeProvider.dart';
 import 'package:provider/provider.dart';
 
 class CardBody extends StatelessWidget {
-  CardBody({super.key, required this.item, required this.indexCard});
-  var item;
-  var indexCard;
+  const CardBody({Key? key, required this.item, required this.indexCard})
+      : super(key: key);
+
+  final dynamic item;
+  final int indexCard;
+
+  void _showDeleteConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Delete'),
+          content: const Text('Are you sure you want to delete this item?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                _deleteItem(context);
+              },
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteItem(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Item deleted successfully.'),
+      ),
+    );
+    // TODO: Perform the actual delete operation here
+    // You can access the necessary data like item.id to identify the item to delete
+    // Update your data source and notify any listeners
+  }
+  //  edit 
+  
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -25,8 +67,14 @@ class CardBody extends StatelessWidget {
             height: 40,
           ),
         ),
-        title: Text(item.name,style: const TextStyle( fontSize: 20, color: Colors.black),),
-        subtitle: const Text('today',style: TextStyle( color: Colors.black),),
+        title: Text(
+          item.name,
+          style: const TextStyle(fontSize: 20, color: Colors.black),
+        ),
+        subtitle: Text(
+          item.date,
+          style: const TextStyle(color: Colors.black),
+        ),
         trailing: SizedBox(
           width: 140,
           child: Row(
@@ -36,7 +84,7 @@ class CardBody extends StatelessWidget {
                 child: Text(
                   item.fee,
                   style: TextStyle(
-                      color: item.buy ? Colors.red : Colors.green,
+                      color: item.type == 'income' ? Colors.red : Colors.green,
                       fontWeight: FontWeight.w600,
                       fontSize: 18),
                 ),
@@ -52,7 +100,9 @@ class CardBody extends StatelessWidget {
               ),
               Expanded(
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _showDeleteConfirmationDialog(context);
+                  },
                   icon: const Icon(
                     Icons.delete,
                     color: Colors.red,

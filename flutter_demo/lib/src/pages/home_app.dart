@@ -5,7 +5,9 @@ import 'package:flutter_demo/src/menu_app.dart';
 import 'package:flutter_demo/src/widgets/overview/card_body_widget.dart';
 import 'package:flutter_demo/ThemeProvider.dart';
 import 'package:provider/provider.dart';
+import '../widgets/header_widget.dart';
 import '../widgets/overview/plus_button_widget.dart';
+import 'package:intl/intl.dart';
 
 class HomeApp extends StatefulWidget {
   const HomeApp({super.key});
@@ -15,20 +17,52 @@ class HomeApp extends StatefulWidget {
 }
 
 class _HomeAppState extends State<HomeApp> {
+  //function delete
+
   final List<Money> moneyItems = [
     Money(
         img: 'iconUpwork.png',
         name: 'up work',
         date: 'today',
         fee: '650',
-        buy: true),
+        type: 'Income'),
     Money(
         img: 'iconUpwork.png',
         name: 'ăn sáng',
         date: 'today',
         fee: '650',
-        buy: false),
+        type: "Expense"),
   ];
+  // Function to delete item
+  void deleteItem(Money item) {
+    setState(() {
+      moneyItems.remove(item);
+    });
+  }
+
+  void handleDataEntered(
+    String acount,
+    String desc,
+    String type,
+    DateTime date,
+  ) {
+    setState(() {
+      moneyItems.add(
+        Money(
+          img: 'iconUpwork.png',
+          name: desc,
+          date: DateFormat('HH:mm dd/MM/yyyy').format(date),
+          fee: acount,
+          type: type,
+        ),
+      );
+    });
+  }
+
+  // fution lưu giá trị
+  void handleEnter(
+    String acount,
+  ) {}
   bool _visible = true;
   final _scrollController = ScrollController();
 
@@ -60,7 +94,7 @@ class _HomeAppState extends State<HomeApp> {
 
   @override
   Widget build(BuildContext context) {
-     final themeProvider = Provider.of<ThemeProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Over view'),
@@ -72,23 +106,25 @@ class _HomeAppState extends State<HomeApp> {
           controller: _scrollController,
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 250,
-                child: _headerHome(),
+                child: HeaderApp(),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children:  [
+                  children: [
                     Text(
                       'Transitons History',
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: themeProvider.isDarkMode ? Colors.white : Colors.black ),
+                          color: themeProvider.isDarkMode
+                              ? Colors.white
+                              : Colors.black),
                     ),
-                    Text(
+                    const Text(
                       'see all',
                       style: TextStyle(fontSize: 16, color: Colors.grey),
                     )
@@ -100,8 +136,7 @@ class _HomeAppState extends State<HomeApp> {
                 child: Column(
                     children: moneyItems
                         .map((item) => CardBody(
-                          indexCard : moneyItems.indexOf(item),
-                          item: item))
+                            indexCard: moneyItems.indexOf(item), item: item))
                         .toList()),
               ),
               const SizedBox(
@@ -111,172 +146,12 @@ class _HomeAppState extends State<HomeApp> {
           ),
         ),
       ),
-      floatingActionButton: PlusButton(visible: _visible),
+      floatingActionButton: PlusButton(
+        visible: _visible,
+        onDataEntered: handleDataEntered,
+        onTypeSelected: (String) {},
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    );
-  }
-
-  Widget _headerHome() {
-    return Stack(
-      children: [
-        Column(
-          children: [
-            Container(
-              width: double.infinity,
-              height: 150,
-              decoration: const BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20))),
-            ),
-          ],
-        ),
-        Positioned(
-          top: 60,
-          left: 40,
-          right: 40,
-          child: Container(
-            width: 320,
-            height: 170,
-            decoration: BoxDecoration(
-                boxShadow: const [
-                  BoxShadow(
-                      spreadRadius: 6,
-                      blurRadius: 12,
-                      offset: Offset(0, 6),
-                      color: Colors.black38)
-                ],
-                borderRadius: BorderRadius.circular(15),
-                color: const Color.fromARGB(255, 19, 93, 154)),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 6,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
-                          'Total Balance',
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white54,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        Icon(
-                          Icons.more_horiz,
-                          size: 34,
-                          color: Colors.white,
-                        )
-                      ]),
-                ),
-                const SizedBox(
-                  height: 6,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Row(
-                    children: const [
-                      Text(
-                        '\$ 123.5',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: const [
-                          CircleAvatar(
-                            radius: 13,
-                            backgroundColor: Colors.white54,
-                            child: Icon(
-                              Icons.arrow_upward,
-                              size: 25,
-                              color: Color.fromARGB(255, 36, 139, 39),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 7,
-                          ),
-                          Text(
-                            'Expenses',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.greenAccent,
-                                fontSize: 16),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: const [
-                          CircleAvatar(
-                            radius: 13,
-                            backgroundColor: Colors.white54,
-                            child: Icon(
-                              Icons.arrow_downward,
-                              size: 25,
-                              color: Colors.red,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 7,
-                          ),
-                          Text(
-                            'Income',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.redAccent,
-                                fontSize: 16),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 7,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(
-                        '\$ 234.5',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      Text(
-                        '\$ 234.5',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        )
-      ],
     );
   }
 }

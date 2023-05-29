@@ -3,11 +3,11 @@ class Money {
   final String name;
   final String date;
   final String fee;
-  final bool buy;
+  final String type;
   Money(
       {required this.img,
       required this.name,
       required this.date,
       required this.fee,
-      required this.buy});
+      required this.type});
 }
