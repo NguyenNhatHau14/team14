@@ -103,7 +103,7 @@ class HeaderApp extends StatelessWidget {
                             width: 7,
                           ),
                           Text(
-                            'Expenses',
+                            'Income',
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Colors.greenAccent,
@@ -126,7 +126,7 @@ class HeaderApp extends StatelessWidget {
                             width: 7,
                           ),
                           Text(
-                            'Income',
+                            'Expenses',
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Colors.redAccent,

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "805092401180",
+    "firebase_url": "https://doan-ltdd-609d9-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "doan-ltdd-609d9",
     "storage_bucket": "doan-ltdd-609d9.appspot.com"
   },
@@ -14,7 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "805092401180-d1qfq6jjr6hmriek7og1tg6p0lk9m5c9.apps.googleusercontent.com",
+          "client_id": "805092401180-i0b0rg0bmadi4o3g8su95qhnd9fu0itp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

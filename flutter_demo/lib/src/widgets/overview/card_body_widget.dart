@@ -45,8 +45,6 @@ class CardBody extends StatelessWidget {
     // You can access the necessary data like item.id to identify the item to delete
     // Update your data source and notify any listeners
   }
-  //  edit 
-  
 
   @override
   Widget build(BuildContext context) {
@@ -61,12 +59,11 @@ class CardBody extends StatelessWidget {
       elevation: 0,
       child: ListTile(
         leading: ClipRRect(
-          borderRadius: BorderRadius.circular(5),
-          child: Image.asset(
-            'assets/img/${item.img}',
-            height: 40,
-          ),
-        ),
+            borderRadius: BorderRadius.circular(5),
+            child: Image.asset(
+              'assets/img/iconUpwork.png',
+              height: 40,
+            )),
         title: Text(
           item.name,
           style: const TextStyle(fontSize: 20, color: Colors.black),
@@ -84,9 +81,10 @@ class CardBody extends StatelessWidget {
                 child: Text(
                   item.fee,
                   style: TextStyle(
-                      color: item.type == 'income' ? Colors.red : Colors.green,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18),
+                    color: item.type == 'income' ? Colors.red : Colors.green,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                  ),
                 ),
               ),
               Expanded(
