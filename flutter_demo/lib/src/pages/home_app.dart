@@ -4,12 +4,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
 
 import 'package:flutter_demo/ThemeProvider.dart';
-import 'package:flutter_demo/src/data/1.dart';
 import 'package:flutter_demo/src/menu_app.dart';
-import 'package:flutter_demo/src/widgets/overview/card_body_widget.dart';
-import 'package:flutter_demo/src/widgets/overview/header_widget.dart';
-import 'package:flutter_demo/src/widgets/overview/plus_button_widget.dart';
 import 'package:provider/provider.dart';
+
+import '../widgets/overview/card_body_widget.dart';
+import '../widgets/overview/header_widget.dart';
+import '../widgets/overview/plus_button_widget.dart';
+
+class Money {
+  final double account;
+  final DateTime date;
+  final String desc;
+  final String type;
+
+  Money({
+    required this.account,
+    required this.date,
+    required this.desc,
+    required this.type,
+  });
+}
 
 class HomeApp extends StatefulWidget {
   const HomeApp({Key? key}) : super(key: key);
@@ -19,8 +33,8 @@ class HomeApp extends StatefulWidget {
 }
 
 class _HomeAppState extends State<HomeApp> {
-  final CollectionReference collectionRef =
-      FirebaseFirestore.instance.collection('madal');
+  final CollectionReference<Map<String, dynamic>> collectionRef =
+      FirebaseFirestore.instance.collection('modal');
 
   bool _visible = true;
   final _scrollController = ScrollController();
@@ -50,25 +64,24 @@ class _HomeAppState extends State<HomeApp> {
     }
   }
 
- void handleDataEntered(
-  double account, String desc, String type, DateTime date) {
-  Map<String, dynamic> data = {
-    'acount': account.toString(),
-    'desc': desc,
-    'type': type,
-    'date': date.toString(),
-  };
+  void handleDataEntered(
+      double account, String desc, String type, DateTime date) {
+    Map<String, dynamic> data = {
+      'account': account.toString(),
+      'desc': desc,
+      'type': type,
+      'date': DateFormat('yyyy-MM-dd').format(date),
+    };
 
-  collectionRef.add(data);
-}
+    collectionRef.add(data);
+  }
 
   void handleFormSubmit(
-      String? account, String? desc, String? type, DateTime? date) {
+      double? account, String? desc, String? type, DateTime? date) {
     if (account != null && desc != null && type != null && date != null) {
-      double parsedAccount = double.tryParse(account) ?? 0.0;
-      handleDataEntered(parsedAccount, desc, type, date);
+      handleDataEntered(account, desc, type, date);
     } else {
-      // Xử lý trường hợp các giá trị null
+      // Handle the case where any values are null
     }
   }
 
@@ -112,10 +125,12 @@ class _HomeAppState extends State<HomeApp> {
                   ],
                 ),
               ),
-              StreamBuilder<QuerySnapshot<Object?>>(
-                stream: collectionRef.snapshots(),
+              StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                stream:
+                    FirebaseFirestore.instance.collection('modal').snapshots(),
                 builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
+                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                        snapshot) {
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   }
@@ -125,30 +140,25 @@ class _HomeAppState extends State<HomeApp> {
                   }
 
                   List<Money> moneyItems = snapshot.data!.docs.map((doc) {
-                    Map<String, dynamic>? data =
-                        doc.data() as Map<String, dynamic>?;
-
                     return Money(
-                      img: data!['img'],
-                      name: data['name'],
-                      date: DateFormat('HH:mm dd/MM/yyyy')
-                          .format(data['date'].toDate()),
-                      fee: data['fee'],
-                      type: data['type'],
+                      account: double.parse(doc['account'].toString()),
+                      date: DateTime.parse(doc['date']),
+                      desc: doc['desc'].toString(),
+                      type: doc['type'].toString(),
+                    );
+                  }).toList();
+
+                  List<CardBody> cardBodies = moneyItems.map((item) {
+                    return CardBody(
+                      indexCard: moneyItems.indexOf(item),
+                      item: item,
                     );
                   }).toList();
 
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Column(
-                      children: moneyItems
-                          .map(
-                            (item) => CardBody(
-                              indexCard: moneyItems.indexOf(item),
-                              item: item,
-                            ),
-                          )
-                          .toList(),
+                      children: cardBodies,
                     ),
                   );
                 },
