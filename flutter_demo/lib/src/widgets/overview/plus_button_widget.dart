@@ -1,55 +1,56 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:intl/intl.dart';
 
 class PlusButton extends StatefulWidget {
   const PlusButton({
     Key? key,
-    required bool visible,
-    required Function(String) onTypeSelected,
+    required this.visible,
+    required this.onTypeSelected,
     required this.onDataEntered,
-  })  : _visible = visible,
-        _onTypeSelected = onTypeSelected,
-        super(key: key);
+  }) : super(key: key);
 
-  final Function(String, String, String, DateTime) onDataEntered;
-  final Function(String) _onTypeSelected;
-  final bool _visible;
+  final bool visible;
+  final Function(String) onTypeSelected;
+  final Function(double?, String?, String?, DateTime?) onDataEntered;
 
   @override
-  State<PlusButton> createState() => _PlusButtonState();
+  _PlusButtonState createState() => _PlusButtonState();
 }
 
 class _PlusButtonState extends State<PlusButton> {
-  final TextEditingController _acountController = TextEditingController();
+  final TextEditingController _accountController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
 
   @override
   void dispose() {
-    _acountController.dispose();
+    _accountController.dispose();
     _descController.dispose();
     super.dispose();
   }
 
   Future<void> addForm(
-    String account,
-    String desc,
-    String type,
-    String date,
-  ) async {
-    await FirebaseFirestore.instance.collection('madal').add({
-      'acount': double.parse(account),
-      'desc': desc,
-      'type': type,
-      'date': date,
-    });
+      double? account, String? desc, String? type, DateTime? date) async {
+    print('$account, $desc, $type, $date');
+    try {
+      await FirebaseFirestore.instance.collection('madal').add({
+        'account': account,
+        'desc': desc,
+        'type': type,
+        'date': date,
+      }).then((documentSnapshot) => print('add data id $documentSnapshot'));
+    } catch (e) {
+      print('kieu lỗi: ${e.runtimeType}');
+    }
   }
 
   final _formKey = GlobalKey<FormBuilderState>();
   String selectedType = '';
-  double? amount;
   String note = 'some expense';
   String type = 'Income';
   DateTime selectDate = DateTime.now();
@@ -71,7 +72,7 @@ class _PlusButtonState extends State<PlusButton> {
   @override
   Widget build(BuildContext context) {
     return AnimatedOpacity(
-      opacity: widget._visible ? 1.0 : 0.0,
+      opacity: widget.visible ? 1.0 : 0.0,
       duration: const Duration(milliseconds: 500),
       child: FloatingActionButton(
         onPressed: () {
@@ -107,7 +108,7 @@ class _PlusButtonState extends State<PlusButton> {
           child: Column(
             children: [
               const Text(
-                'N E W T R A N F E R',
+                'N E W T R A N S F E R',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
@@ -131,8 +132,8 @@ class _PlusButtonState extends State<PlusButton> {
                   ),
                   Expanded(
                     child: FormBuilderTextField(
-                      controller: _acountController,
-                      name: 'acount',
+                      controller: _accountController,
+                      name: 'account',
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: '0',
@@ -143,8 +144,7 @@ class _PlusButtonState extends State<PlusButton> {
                       ]),
                       inputFormatters: [
                         FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d+\.?\d{0,2}'),
-                        ),
+                            RegExp(r'^\d+\.?\d{0,2}')),
                       ],
                       keyboardType: TextInputType.number,
                     ),
@@ -229,7 +229,7 @@ class _PlusButtonState extends State<PlusButton> {
                       onChanged: (value) {
                         setState(() {
                           selectedType = value!;
-                          widget._onTypeSelected(selectedType);
+                          widget.onTypeSelected(selectedType);
                         });
                       },
                       selectedColor: Colors.orange,
@@ -264,11 +264,17 @@ class _PlusButtonState extends State<PlusButton> {
                       Expanded(
                         child: FormBuilderDateTimePicker(
                           name: 'date',
+                          initialValue: selectDate,
                           decoration: const InputDecoration(
                             labelText: 'Date',
                             border: OutlineInputBorder(),
                           ),
                           validator: FormBuilderValidators.required(context),
+                          onChanged: (value) {
+                            selectDate = value as DateTime;
+                          },
+                          inputType: InputType.date,
+                          format: DateFormat('yyyy-MM-dd HH:mm:ss.SSS'),
                         ),
                       ),
                     ],
@@ -278,56 +284,40 @@ class _PlusButtonState extends State<PlusButton> {
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text(
-                        'Cancel!',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
+              SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.saveAndValidate()) {
+                      double? account =
+                          double.tryParse(_accountController.text);
+                      String? desc = _descController.text;
+                      DateTime? date = DateTime.parse(selectDate.toString());
+
+                      // widget.onDataEntered(account, desc, selectedType, date);
+                      print(
+                          '${account.runtimeType}, ${desc.runtimeType}, ${selectedType.runtimeType}, ${selectDate.runtimeType}');
+                      await addForm(account, desc, selectedType, selectDate);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Form submitted'),
+                        ),
+                      );
+                      Navigator.of(context).pop();
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Form not submitted'),
+                        ),
+                      );
+                    }
+                  },
+                  child: const Text(
+                    'Submit',
+                    style: TextStyle(fontSize: 20),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  SizedBox(
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.saveAndValidate()) {
-                          amount = double.parse(_acountController.text);
-                          type = selectedType;
-                          addForm(
-                            amount.toString(),
-                            note,
-                            type,
-                            selectDate.toString(),
-                          );
-                          widget.onDataEntered(
-                            amount.toString(),
-                            note,
-                            type,
-                            selectDate,
-                          );
-                          Navigator.of(context).pop();
-                        }
-                      },
-                      child: const Text(
-                        'Save!',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ],
           ),
