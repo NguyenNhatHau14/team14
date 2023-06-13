@@ -140,7 +140,7 @@ class _PlusButtonState extends State<PlusButton> {
                         labelText: 'Your Account',
                       ),
                       validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(context),
+                        FormBuilderValidators.required(),
                       ]),
                       inputFormatters: [
                         FilteringTextInputFormatter.allow(
@@ -176,8 +176,8 @@ class _PlusButtonState extends State<PlusButton> {
                         labelText: 'For what?',
                       ),
                       validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(context),
-                        FormBuilderValidators.maxLength(context, 30),
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.maxLength(30),
                       ]),
                       maxLength: 30,
                       onChanged: (value) {
@@ -225,7 +225,7 @@ class _PlusButtonState extends State<PlusButton> {
                           ),
                         ),
                       ],
-                      validator: FormBuilderValidators.required(context),
+                      validator: FormBuilderValidators.required(),
                       onChanged: (value) {
                         setState(() {
                           selectedType = value!;
@@ -269,12 +269,12 @@ class _PlusButtonState extends State<PlusButton> {
                             labelText: 'Date',
                             border: OutlineInputBorder(),
                           ),
-                          validator: FormBuilderValidators.required(context),
+                          validator: FormBuilderValidators.required(),
                           onChanged: (value) {
                             selectDate = value as DateTime;
                           },
                           inputType: InputType.date,
-                          format: DateFormat('yyyy-MM-dd HH:mm:ss.SSS'),
+                          format: DateFormat('dd/MM/yyyy'),
                         ),
                       ),
                     ],

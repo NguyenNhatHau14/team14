@@ -74,16 +74,16 @@ class _MenuAppState extends State<MenuApp> {
             _showScreen(context, const HomeApp());
           },
         ),
-        ListTile(
-          leading: const Icon(
-            Icons.addchart,
-            color: Colors.green,
-          ),
-          title: const Text('Chart'),
-          onTap: () {
-            _showScreen(context, const draw1());
-          },
-        ),
+        // ListTile(
+        //   leading: const Icon(
+        //     Icons.addchart,
+        //     color: Colors.green,
+        //   ),
+        //   title: const Text('Chart'),
+        //   onTap: () {
+        //     _showScreen(context, const draw1());
+        //   },
+        // ),
         ListTile(
           leading: const Icon(Icons.settings,
               color: Color.fromARGB(255, 143, 122, 122)),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo/page/auth_page.dart';
+import 'package:flutter_demo/src/widgets/overview/product.dart';
 import 'package:gsheets/gsheets.dart';
 import 'ThemeProvider.dart';
 import 'package:provider/provider.dart';
@@ -51,7 +51,6 @@ void main() async {
   );
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -66,7 +65,7 @@ class MyApp extends StatelessWidget {
         brightness:
             themeProvider.isDarkMode ? Brightness.dark : Brightness.light,
       ),
-      home: const AuthPage(),
+      home: const ProductListPage(),
       localizationsDelegates: const [
         FormBuilderLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

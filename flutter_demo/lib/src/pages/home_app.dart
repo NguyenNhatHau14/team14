@@ -125,44 +125,44 @@ class _HomeAppState extends State<HomeApp> {
                   ],
                 ),
               ),
-              StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                stream:
-                    FirebaseFirestore.instance.collection('modal').snapshots(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                        snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  }
+              // StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              //   stream:
+              //       FirebaseFirestore.instance.collection('modal').snapshots(),
+              //   builder: (BuildContext context,
+              //       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+              //           snapshot) {
+              //     if (snapshot.hasError) {
+              //       return Text('Error: ${snapshot.error}');
+              //     }
 
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  }
+              //     if (snapshot.connectionState == ConnectionState.waiting) {
+              //       return const CircularProgressIndicator();
+              //     }
 
-                  List<Money> moneyItems = snapshot.data!.docs.map((doc) {
-                    return Money(
-                      account: double.parse(doc['account'].toString()),
-                      date: DateTime.parse(doc['date']),
-                      desc: doc['desc'].toString(),
-                      type: doc['type'].toString(),
-                    );
-                  }).toList();
+              //     List<Money> moneyItems = snapshot.data!.docs.map((doc) {
+              //       return Money(
+              //         account: double.parse(doc['account'].toString()),
+              //         date: DateTime.parse(doc['date']),
+              //         desc: doc['desc'].toString(),
+              //         type: doc['type'].toString(),
+              //       );
+              //     }).toList();
 
-                  List<CardBody> cardBodies = moneyItems.map((item) {
-                    return CardBody(
-                      indexCard: moneyItems.indexOf(item),
-                      item: item,
-                    );
-                  }).toList();
+              //     List<CardBody> cardBodies = moneyItems.map((item) {
+              //       return CardBody(
+              //         indexCard: moneyItems.indexOf(item),
+              //         item: item,
+              //       );
+              //     }).toList();
 
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Column(
-                      children: cardBodies,
-                    ),
-                  );
-                },
-              ),
+              //     return Padding(
+              //       padding: const EdgeInsets.symmetric(horizontal: 15),
+              //       child: Column(
+              //         children: cardBodies,
+              //       ),
+              //     );
+              //   },
+              // ),
               const SizedBox(
                 height: 10,
               ),
