@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/page/auth_page.dart';
+import 'package:flutter_demo/src/pages/home_app.dart';
 import 'package:flutter_demo/src/widgets/overview/product.dart';
 import 'package:gsheets/gsheets.dart';
 import 'ThemeProvider.dart';
@@ -65,7 +67,7 @@ class MyApp extends StatelessWidget {
         brightness:
             themeProvider.isDarkMode ? Brightness.dark : Brightness.light,
       ),
-      home: const ProductListPage(),
+      home: const HomeApp(),
       localizationsDelegates: const [
         FormBuilderLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
