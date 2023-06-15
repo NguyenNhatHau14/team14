@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 class HeaderApp extends StatelessWidget {
-  const HeaderApp({
-    super.key,
-  });
+  final double totalIncome;
+  const HeaderApp({super.key, required this.totalIncome});
 
   @override
   Widget build(BuildContext context) {
@@ -39,16 +38,16 @@ class HeaderApp extends StatelessWidget {
                 ],
                 borderRadius: BorderRadius.circular(15),
                 color: const Color.fromARGB(255, 19, 93, 154)),
-            child: Column(
+            child: const Column(
               children: [
-                const SizedBox(
+                SizedBox(
                   height: 6,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  padding: EdgeInsets.symmetric(horizontal: 15),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         Text(
                           'Total Balance',
                           style: TextStyle(
@@ -63,13 +62,13 @@ class HeaderApp extends StatelessWidget {
                         )
                       ]),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 6,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 15),
+                  padding: EdgeInsets.only(left: 15),
                   child: Row(
-                    children: const [
+                    children: [
                       Text(
                         '\$ 123.5',
                         style: TextStyle(
@@ -80,16 +79,16 @@ class HeaderApp extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 25,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  padding: EdgeInsets.symmetric(horizontal: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
-                        children: const [
+                        children: [
                           CircleAvatar(
                             radius: 13,
                             backgroundColor: Colors.white54,
@@ -112,7 +111,7 @@ class HeaderApp extends StatelessWidget {
                         ],
                       ),
                       Row(
-                        children: const [
+                        children: [
                           CircleAvatar(
                             radius: 13,
                             backgroundColor: Colors.white54,
@@ -137,16 +136,16 @@ class HeaderApp extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 7,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  padding: EdgeInsets.symmetric(horizontal: 30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text(
-                        '\$ 234.5',
+                        ' 55',
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
